@@ -119,12 +119,13 @@ class WordImporter {
                                 mLbBottomHint.visible = true
                                 mLbBottomHint.text = "正在导入，导入未完成请不要关闭窗口，否则会导致数据不完整"
                                 thread {
-                                    def fileId = 1
-                                    new File(filePath.text).eachFileRecurse { file ->
-                                        if (file.name.endsWith(".doc")) {
-                                            try {
-                                                def fis = new FileInputStream(file)
-                                                def paras
+                                    try {
+                                        def fileId = 1
+                                        new File(filePath.text).eachFileRecurse { file ->
+                                            if (file.name.endsWith(".doc")) {
+                                                try {
+                                                    def fis = new FileInputStream(file)
+                                                    def paras
 //                                                try {
                                                     def document = new WordExtractor(fis)
                                                     paras = document.getText()
@@ -132,22 +133,27 @@ class WordImporter {
 //                                                    def document = new XWPFWordExtractor(new XWPFDocument(fis))
 //                                                    paras = document.getText()
 //                                                }
-                                                def nodes = new WParagraphSpliter().splitWord(paras)
-                                                nodes.each {
-                                                    def insertStmt = "insert into T_NODE(node_id,parent_node_id,document_id,document_name,content) values (${it.id},${it.pid},${fileId},$file.name,${it.content})"
-                                                    sql.executeInsert(insertStmt)
+                                                    def nodes = new WParagraphSpliter().splitWord(paras)
+                                                    nodes.each {
+                                                        def insertStmt = "insert into T_NODE(node_id,parent_node_id,document_id,document_name,content) values (${it.id},${it.pid},${fileId},$file.name,${it.content})"
+                                                        sql.executeInsert(insertStmt)
+                                                    }
+                                                    fis.close()
+                                                    log "文件 ${file.path} 导入成功!共导入 ${nodes.size()} 条记录"
+                                                } catch (Exception e) {
+                                                    e.printStackTrace()
+                                                    log file.path + "导入失败， 格式不支持。"
                                                 }
-                                                fis.close()
-                                                log "文件 ${file.path} 导入成功!共导入 ${nodes.size()} 条记录"
-                                            } catch (Exception e) {
-                                                e.printStackTrace()
-                                                log file.path + "导入失败， 格式不支持。"
+                                                fileId++
                                             }
-                                            fileId++
                                         }
+                                        log "导入完毕，共成功导入 ${fileId - 1} 个文件"
+                                        mLbBottomHint.visible = false
+                                    }catch(Exception e){
+                                        log "导入失败"
+                                        mLbBottomHint.visible = false
+                                        mBtnImport.visible = true
                                     }
-                                    log "导入完毕，共成功导入 ${fileId - 1} 个文件"
-                                    mLbBottomHint.visible = false
                                 }
                             })
                         }
