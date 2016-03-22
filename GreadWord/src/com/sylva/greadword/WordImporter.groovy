@@ -120,7 +120,8 @@ class WordImporter {
                                 mLbBottomHint.text = "正在导入，导入未完成请不要关闭窗口，否则会导致数据不完整"
                                 thread {
                                     try {
-                                        def fileId = 1
+                                        def fileId = UUID.randomUUID().toString()
+                                        def fileCount=0;
                                         new File(filePath.text).eachFileRecurse { file ->
                                             if (file.name.endsWith(".doc")) {
                                                 try {
@@ -144,10 +145,11 @@ class WordImporter {
                                                     e.printStackTrace()
                                                     log file.path + "导入失败， 格式不支持。"
                                                 }
-                                                fileId++
+                                                fileId= UUID.randomUUID().toString()
+                                                fileCount++
                                             }
                                         }
-                                        log "导入完毕，共成功导入 ${fileId - 1} 个文件"
+                                        log "导入完毕，共成功导入 ${fileCount} 个文件"
                                         mLbBottomHint.visible = false
                                     }catch(Exception e){
                                         log "导入失败"
