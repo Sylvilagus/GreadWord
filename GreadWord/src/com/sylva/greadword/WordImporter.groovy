@@ -16,7 +16,7 @@ import javax.swing.border.TitledBorder
  * Created by sylva on 2016/3/15.
  */
 class WordImporter {
-    static DB_URL = "jdbc:mysql://localhost:3306/knowlegedepot12333"
+    static DB_URL = "jdbc:mysql://localhost:3306/knowlegedepot12333?useUnicode=true&amp;characterEncoding=utf-8"
     static DB_USERNAME = "root"
     static DB_PASSWORD = "password"
     static DEFAULT_FILE_PATH = "D:\\资料汇编印刷\\"
@@ -140,6 +140,7 @@ class WordImporter {
                                                         sql.executeInsert(insertStmt)
                                                     }
                                                     fis.close()
+//                                                    log paras
                                                     log "文件 ${file.path} 导入成功!共导入 ${nodes.size()} 条记录"
                                                 } catch (Exception e) {
                                                     e.printStackTrace()
@@ -155,6 +156,8 @@ class WordImporter {
                                         log "导入失败"
                                         mLbBottomHint.visible = false
                                         mBtnImport.visible = true
+                                    }finally{
+                                        sql.close()
                                     }
                                 }
                             })
