@@ -19,7 +19,7 @@ class WordImporter {
     static DB_URL = "jdbc:mysql://localhost:3306/knowlegedepot12333?useUnicode=true&amp;characterEncoding=utf-8"
     static DB_USERNAME = "root"
     static DB_PASSWORD = "password"
-    static DEFAULT_FILE_PATH = "D:\\资料汇编印刷\\"
+    static DEFAULT_FILE_PATH = "D:\\aaa\\"
     static JTextField mTfUrl, mTfUserName, mTfPassword, filePath
     static JLabel mLbErr, mLbBottomHint
     static Sql sql

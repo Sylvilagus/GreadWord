@@ -26,7 +26,7 @@ class WParagraphSpliter {
                     serial.id=id
                     //same
                     if(serial.type<formerSerial?.type){
-                        WSerialParts.Serial directParent=pSerialStack.peek()
+                        WSerialParts.Serial directParent=pSerialStack.pop()
                         while (serial.type<directParent.type){
                             directParent=pSerialStack.pop()
                             println "pop a element from stack"
@@ -36,8 +36,9 @@ class WParagraphSpliter {
                     }else if(serial.type>formerSerial?.type){
                         wNodes.add(wNodePart)
                         pSerialStack.push(wNodePart.serial)
-                    }else
+                    }else {
                         wNodes.add(wNodePart)
+                    }
                     wNodePart=new WNode(id:id,pid:pSerialStack.peek().id,content: it,serial:serial)
                     formerSerial=serial
                 }else{

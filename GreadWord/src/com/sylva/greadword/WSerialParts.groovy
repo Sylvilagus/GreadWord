@@ -9,19 +9,23 @@ class WSerialParts {
     static final String[] cnEles = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"]
     static final List<List<Serial>> serials = new ArrayList<>()
     static {
-        def arabWithDot = new ArrayList()
-        def arabWithDun = new ArrayList()
-        def cn = new ArrayList()
+        def s1 = new ArrayList()
+        def s2 = new ArrayList()
+        def s3 = new ArrayList()
+        def s4 = new ArrayList()
+        def s5 = new ArrayList()
         (1..99).each {
-            arabWithDot.add(new Serial(type: 4, text: it + "."))
-            arabWithDun.add(new Serial(type: 3, text: it + "、"))
-            cn.add(new Serial(type: 2, text: "(${translateArabToCn(it)})"))
-            cn.add(new Serial(type: 1, text: "(${translateArabToCn(it)})、"))
-            cn.add(new Serial(type: 0, text: "${translateArabToCn(it)}、"))
+            s1.add(new Serial(type: 4, text: it + "."))
+            s2.add(new Serial(type: 3, text: it + "、"))
+            s3.add(new Serial(type: 2, text: "（${translateArabToCn(it)}）"))
+            s4.add(new Serial(type: 1, text: "（${translateArabToCn(it)}）、"))
+            s5.add(new Serial(type: 0, text: "${translateArabToCn(it)}、"))
         }
-        serials.add(arabWithDot)
-        serials.add(arabWithDun)
-        serials.add(cn)
+        serials.add(s1)
+        serials.add(s2)
+        serials.add(s3)
+        serials.add(s4)
+        serials.add(s5)
 
     }
 
